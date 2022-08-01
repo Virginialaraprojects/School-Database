@@ -35,5 +35,5 @@ exports.authenticateUser = async (req,res,next) =>{
             res.status(401).json({message:'Access Denied'});
         } else{
             next();
-        };
+        }
 };

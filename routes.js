@@ -84,10 +84,10 @@ router.get('/courses/:id',asyncHandler(async(req,res)=>{
 router.post('/courses/', authenticateUser, asyncHandler(async(req,res)=>{
     try{
        const course = await Courses.create(req.body);
-        res.status(201).location('/api/courses/' + courses.id).end();
+        res.status(201).location('/api/courses/' + course.id).end();
     }catch(error){
         //console.log('ERROR:', error.name);
-        if(error.name === 'SequelizeValidaionError' || error.name === 'SequelizeUniqueConstraintError'){
+        if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError'){
             const errors =error.errors.map(err => err.message);
             res.status(400).json({ errors });
         }else {

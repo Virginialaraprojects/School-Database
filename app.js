@@ -19,11 +19,12 @@ const app = express();
 //api starts use the routes from routes.js file add routes
 app.use('/api', routes);
 
+//Setup request body JSON parsing
+app.use(express.json());
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
-//Setup request body JSON parsing
-app.use(express.json());
+
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
