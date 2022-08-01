@@ -37,7 +37,7 @@ router.post('/users', asyncHandler(async(req,res)=>{
         await Users.create(req.body)
         res.status(201).location('/').end();
     }catch(error){
-        console.log('ERROR:' ,error.name);
+        //console.log('ERROR:' ,error.name);
 
         if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError'){
             const errors = error.errors.map(err =>err.message);
@@ -81,13 +81,12 @@ router.get('/courses/:id',asyncHandler(async(req,res)=>{
 }));
 
 //Send a POST request to /api/courses/:id to  CREATE a new course, set location to the uri and http status 201
-router.post('/courses/:id', authenticateUser, asyncHandler(async(req,res)=>{
+router.post('/courses/', authenticateUser, asyncHandler(async(req,res)=>{
     try{
-        await Courses.create(req.body)
+       const course = await Courses.create(req.body);
         res.status(201).location('/api/courses/' + courses.id).end();
     }catch(error){
-        console.log('ERROR:', error.name);
-
+        //console.log('ERROR:', error.name);
         if(error.name === 'SequelizeValidaionError' || error.name === 'SequelizeUniqueConstraintError'){
             const errors =error.errors.map(err => err.message);
             res.status(400).json({ errors });
@@ -104,7 +103,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async(req,res)=>{
     try{
         const course= await Courses.findByPk(req.params.id);
     if(course){
-        await Courses.update(req.body);
+        await course.update(req.body);
         res.status(204).end();
     }else{
         res.status(404).end();
@@ -126,7 +125,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async(req,res)=>{
 router.delete('/courses/:id', authenticateUser, asyncHandler(async(req,res,next)=>{
     const course = await Courses.findByPk(req.params.id);
     if(course){
-        await Courses.destroy(course);
+        await course.destroy(course);
         res.status(204).end();
     } else{
         res.status(404).json({message: 'Unable to find the course!'});

@@ -15,7 +15,7 @@ exports.authenticateUser = async (req,res,next) =>{
         const user = await Users.findOne({where:{emailAddress: credentials.name}});
         if (user){//checks if the user was successfully retrieve
             const authenticated =bcrypt
-            .compareSync(credentials.pass, user.confirmedPassword);//password
+            .compareSync(credentials.pass, user.password);//password
             if(authenticated){
                 console.log(`Authentication successful for email ${user.emailAddress}`);
                 //Store the user on the request object
